@@ -8,7 +8,7 @@ class ConstructorImplementationAdapter extends MethodVisitor {
 	private final String baseName;
 
 	ConstructorImplementationAdapter(MethodVisitor mv, String baseName) {
-		super(Opcodes.ASM4, mv);
+		super(Opcodes.ASM7, mv);
 		this.mv = mv;
 		this.baseName = baseName;
 	}
@@ -17,7 +17,7 @@ class ConstructorImplementationAdapter extends MethodVisitor {
 	public void visitCode() {
 		mv.visitVarInsn(Opcodes.ALOAD, 0);
 		mv.visitVarInsn(Opcodes.ALOAD, 1);
-		mv.visitMethodInsn(Opcodes.INVOKESPECIAL, baseName, "<init>", "(Ljava/util/Locale;)V");
+		mv.visitMethodInsn(Opcodes.INVOKESPECIAL, baseName, "<init>", "(Ljava/util/Locale;)V", false);
 		mv.visitInsn(Opcodes.RETURN);
 		mv.visitMaxs(0, 0); // calculated due to ClassWriter.COMPUTE_MAXS
 	}

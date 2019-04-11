@@ -27,7 +27,7 @@ class ImplementMethodsAdapter extends ClassVisitor {
 	ImplementMethodsAdapter(ClassVisitor cv, Properties translations,
 			Set<String> usedKeys, Locale locale,
 			BundleConfiguration configuration) {
-		super(Opcodes.ASM4, cv);
+		super(Opcodes.ASM7, cv);
 		this.translations = translations;
 		this.usedKeys = usedKeys;
 		this.configuration = configuration;

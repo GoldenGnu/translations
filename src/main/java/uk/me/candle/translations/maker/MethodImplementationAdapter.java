@@ -9,7 +9,7 @@ class MethodImplementationAdapter extends MethodVisitor {
 	private String descriptor;
 	private String generatedClassName;
 	MethodImplementationAdapter(MethodVisitor mv, String descriptor, String translation, String generatedClassName) {
-		super(Opcodes.ASM4, mv);
+		super(Opcodes.ASM7, mv);
 		this.translation = translation;
 		this.descriptor = descriptor;
 		this.generatedClassName = generatedClassName;
@@ -36,8 +36,8 @@ class MethodImplementationAdapter extends MethodVisitor {
 		mv.visitInsn(Opcodes.DUP);
 		mv.visitLdcInsn(translation);
 		mv.visitVarInsn(Opcodes.ALOAD, 0);
-		mv.visitMethodInsn(Opcodes.INVOKEVIRTUAL, generatedClassName, "getLocale", "()Ljava/util/Locale;");
-		mv.visitMethodInsn(Opcodes.INVOKESPECIAL, "java/text/MessageFormat", "<init>", "(Ljava/lang/String;Ljava/util/Locale;)V");
+		mv.visitMethodInsn(Opcodes.INVOKEVIRTUAL, generatedClassName, "getLocale", "()Ljava/util/Locale;", false);
+		mv.visitMethodInsn(Opcodes.INVOKESPECIAL, "java/text/MessageFormat", "<init>", "(Ljava/lang/String;Ljava/util/Locale;)V", false);
 		mv.visitVarInsn(Opcodes.ASTORE, registers + 2);
 		mv.visitVarInsn(Opcodes.ALOAD, registers + 2);
 		mv.visitIntInsn(Opcodes.BIPUSH, types.length);
@@ -47,7 +47,7 @@ class MethodImplementationAdapter extends MethodVisitor {
 			boxIfNeededAndAddToArray(types[i], i, regCount);
 			regCount += getRegisters(types[i]);
 		}
-		mv.visitMethodInsn(Opcodes.INVOKEVIRTUAL, "java/text/MessageFormat", "format", "(Ljava/lang/Object;)Ljava/lang/String;");
+		mv.visitMethodInsn(Opcodes.INVOKEVIRTUAL, "java/text/MessageFormat", "format", "(Ljava/lang/Object;)Ljava/lang/String;", false);
 		mv.visitInsn(Opcodes.ARETURN);
 		mv.visitMaxs(0, 0); // (1, 1) // calculated due to ClassWriter.COMPUTE_MAXS
 	}
@@ -80,28 +80,28 @@ class MethodImplementationAdapter extends MethodVisitor {
 		}
 		switch (t.getSort()) {
 			case Type.BOOLEAN:
-				mv.visitMethodInsn(Opcodes.INVOKESTATIC, "java/lang/Boolean", valueOf, "(Z)Ljava/lang/Boolean;");
+				mv.visitMethodInsn(Opcodes.INVOKESTATIC, "java/lang/Boolean", valueOf, "(Z)Ljava/lang/Boolean;", false);
 				break;
 			case Type.BYTE:
-				mv.visitMethodInsn(Opcodes.INVOKESTATIC, "java/lang/Byte", valueOf, "(B)Ljava/lang/Byte;");
+				mv.visitMethodInsn(Opcodes.INVOKESTATIC, "java/lang/Byte", valueOf, "(B)Ljava/lang/Byte;", false);
 				break;
 			case Type.CHAR:
-				mv.visitMethodInsn(Opcodes.INVOKESTATIC, "java/lang/Character", valueOf, "(C)Ljava/lang/Character;");
+				mv.visitMethodInsn(Opcodes.INVOKESTATIC, "java/lang/Character", valueOf, "(C)Ljava/lang/Character;", false);
 				break;
 			case Type.SHORT:
-				mv.visitMethodInsn(Opcodes.INVOKESTATIC, "java/lang/Short", valueOf, "(S)Ljava/lang/Short;");
+				mv.visitMethodInsn(Opcodes.INVOKESTATIC, "java/lang/Short", valueOf, "(S)Ljava/lang/Short;", false);
 				break;
 			case Type.INT:
-				mv.visitMethodInsn(Opcodes.INVOKESTATIC, "java/lang/Integer", valueOf, "(I)Ljava/lang/Integer;");
+				mv.visitMethodInsn(Opcodes.INVOKESTATIC, "java/lang/Integer", valueOf, "(I)Ljava/lang/Integer;", false);
 				break;
 			case Type.LONG:
-				mv.visitMethodInsn(Opcodes.INVOKESTATIC, "java/lang/Long", valueOf, "(J)Ljava/lang/Long;");
+				mv.visitMethodInsn(Opcodes.INVOKESTATIC, "java/lang/Long", valueOf, "(J)Ljava/lang/Long;", false);
 				break;
 			case Type.FLOAT:
-				mv.visitMethodInsn(Opcodes.INVOKESTATIC, "java/lang/Float", valueOf, "(F)Ljava/lang/Float;");
+				mv.visitMethodInsn(Opcodes.INVOKESTATIC, "java/lang/Float", valueOf, "(F)Ljava/lang/Float;", false);
 				break;
 			case Type.DOUBLE:
-				mv.visitMethodInsn(Opcodes.INVOKESTATIC, "java/lang/Double", valueOf, "(D)Ljava/lang/Double;");
+				mv.visitMethodInsn(Opcodes.INVOKESTATIC, "java/lang/Double", valueOf, "(D)Ljava/lang/Double;", false);
 				break;
 			case Type.OBJECT:
 				break;
